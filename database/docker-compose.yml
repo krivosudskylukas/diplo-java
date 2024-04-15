@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  postgresql:
+    container_name: billing-postgre
+    image: postgres:11.5
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
+      - './initdb:/docker-entrypoint-initdb.d'
+    environment:
+      - TZ=Europe/Bratislava
+      - POSTGRES_USER=billing
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=billing
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+    driver: local

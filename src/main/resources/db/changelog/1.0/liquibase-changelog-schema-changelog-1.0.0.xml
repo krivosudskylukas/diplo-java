@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd">
+
+    <changeSet author="lukas.krivosudsky" id="liquibase-changelog-schema-changelog-1.0.0-01">
+        <createTable tableName="DB_CHANGE_LOG">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AUTHOR" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FILENAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATEEXECUTED" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ORDEREXECUTED" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXECTYPE" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MD5SUM" type="VARCHAR(35)"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="COMMENTS" type="VARCHAR(255)"/>
+            <column name="TAG" type="VARCHAR(255)"/>
+            <column name="LIQUIBASE" type="VARCHAR(20)"/>
+            <column name="CONTEXTS" type="VARCHAR(255)"/>
+            <column name="LABELS" type="VARCHAR(255)"/>
+            <column name="DEPLOYMENT_ID" type="VARCHAR(10)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

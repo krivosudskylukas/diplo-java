@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: billing-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/billing
+    username: billing
+    password: pass
+  jpa:
+    show-sql: true
+  liquibase:
+    enabled: true
+    contexts: schema, view, data, mock
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    database-change-log-table: t_db_change_log
+    database-change-log-lock-table: t_db_change_log_lock
+    default-schema: billing
+

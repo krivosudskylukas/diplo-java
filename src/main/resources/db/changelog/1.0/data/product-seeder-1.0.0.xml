@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd">
+
+
+    <changeSet author="lukas.krivosudsky" id="products-seq-1.0.0">
+        <createSequence sequenceName="product_id_seq" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="lukas.krivosudsky" id="products-insert-1.0.0">
+        <insert tableName="c_product">
+            <column name="product_id" valueSequenceNext="product_id_seq"/>
+            <column name="product_name" value="SCAN"/>
+        </insert>
+        <insert tableName="c_product">
+            <column name="product_id" valueSequenceNext="product_id_seq"/>
+            <column name="product_name" value="FULL"/>
+        </insert>
+        <insert tableName="c_product">
+            <column name="product_id" valueSequenceNext="product_id_seq"/>
+            <column name="product_name" value="X-RAY"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

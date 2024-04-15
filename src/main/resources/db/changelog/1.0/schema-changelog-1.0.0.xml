@@ -1,0 +1,80 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd">
+
+
+    <changeSet author="lukas.krivosudsky" id="customer-1.0.0">
+        <createTable tableName="t_customer">
+            <column name="customer_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="lukas.krivosudsky" id="invoice-1.0.0">
+        <createTable tableName="t_invoice">
+            <column name="invoice_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="int">
+                <constraints nullable="false"
+                             foreignKeyName="fk_customer_id"
+                             referencedTableName="t_customer"
+                             referencedColumnNames="customer_id"/>
+            </column>
+            <column name="invoice_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="lukas.krivosudsky" id="product-1.0.0" >
+        <createTable tableName="c_product">
+            <column name="product_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_name" type="varchar(25)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="lukas.krivosudsky" id="invoice-detail-1.0.0" >
+        <createTable tableName="t_invoice_detail">
+            <column name="invoice_id" type="int">
+                <constraints nullable="false"
+                             foreignKeyName="fk_invoice_id"
+                             referencedTableName="t_invoice"
+                             referencedColumnNames="invoice_id"/>
+            </column>
+            <column name="product_id" type="int">
+                <constraints nullable="false"
+                             foreignKeyName="fk_product_id"
+                             referencedTableName="c_product"
+                             referencedColumnNames="product_id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>
