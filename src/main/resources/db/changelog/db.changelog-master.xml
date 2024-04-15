@@ -12,5 +12,8 @@
 
     <!-- data -->
     <include file="1.0/data/product-seeder-1.0.0.xml" relativeToChangelogFile="true" context="data"/>
+    <include file="1.0/data/customer-seeder-1.0.0.xml" relativeToChangelogFile="true" context="data"/>
+    <include file="1.0/data/invoice-seeder-1.0.0.xml" relativeToChangelogFile="true" context="data"/>
+    <include file="1.0/data/customer-computer-seeder-1.0.0.xml" relativeToChangelogFile="true" context="data"/>
 
 </databaseChangeLog>

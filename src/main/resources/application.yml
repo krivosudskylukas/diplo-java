@@ -14,4 +14,14 @@ spring:
     database-change-log-table: t_db_change_log
     database-change-log-lock-table: t_db_change_log_lock
     default-schema: billing
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${email}
+    password: ${password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

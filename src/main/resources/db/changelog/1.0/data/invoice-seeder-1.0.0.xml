@@ -7,21 +7,21 @@
 
 
     <changeSet author="lukas.krivosudsky" id="products-insert-1.0.0">
-        <insert tableName="c_product">
-            <column name="id" valueSequenceNext="product_id_seq"/>
-            <column name="product_name" value="SCAN"/>
+        <insert tableName="t_invoice">
+            <column name="id" valueSequenceNext="invoice_id_seq"/>
+            <column name="customer_id" value="1"/>
+            <column name="invoice_date" value="2024-04-01"/>
+            <column name="due_date" value="2024-05-01"/>
+            <column name="total_amount" value="250"/>
             <column name="created_at" value="now()"/>
             <column name="updated_at" value="null"/>
         </insert>
-        <insert tableName="c_product">
-            <column name="id" valueSequenceNext="product_id_seq"/>
-            <column name="product_name" value="FULL"/>
-            <column name="created_at" value="now()"/>
-            <column name="updated_at" value="null"/>
-        </insert>
-        <insert tableName="c_product">
-            <column name="id" valueSequenceNext="product_id_seq"/>
-            <column name="product_name" value="X-RAY"/>
+        <insert tableName="t_invoice">
+            <column name="id" valueSequenceNext="invoice_id_seq"/>
+            <column name="customer_id" value="1"/>
+            <column name="invoice_date" value="2024-02-01"/>
+            <column name="due_date" value="2024-03-01"/>
+            <column name="total_amount" value="250"/>
             <column name="created_at" value="now()"/>
             <column name="updated_at" value="null"/>
         </insert>

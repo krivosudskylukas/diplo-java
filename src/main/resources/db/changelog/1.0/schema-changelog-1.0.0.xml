@@ -4,10 +4,25 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd">
 
+    <changeSet author="lukas.krivosudsky" id="products-seq-1.0.0">
+        <createSequence sequenceName="product_id_seq" incrementBy="1"/>
+    </changeSet>
+    <changeSet author="lukas.krivosudsky" id="customers-seq-1.0.0">
+        <createSequence sequenceName="customer_id_seq" incrementBy="1"/>
+    </changeSet>
+    <changeSet author="lukas.krivosudsky" id="invoice-seq-1.0.0">
+        <createSequence sequenceName="invoice_id_seq" incrementBy="1"/>
+    </changeSet>
+    <changeSet author="lukas.krivosudsky" id="invoice-detail-seq-1.0.0">
+        <createSequence sequenceName="invoice_detail_id_seq" incrementBy="1"/>
+    </changeSet>
+    <changeSet author="lukas.krivosudsky" id="customer-computer-seq-1.0.0">
+        <createSequence sequenceName="customer_computer_id_seq" incrementBy="1"/>
+    </changeSet>
 
     <changeSet author="lukas.krivosudsky" id="customer-1.0.0">
         <createTable tableName="t_customer">
-            <column name="customer_id" type="int">
+            <column name="id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="company_name" type="varchar(100)">
@@ -22,57 +37,103 @@
             <column name="address" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
         </createTable>
     </changeSet>
 
-    <changeSet author="lukas.krivosudsky" id="invoice-1.0.0">
-        <createTable tableName="t_invoice">
-            <column name="invoice_id" type="int">
+    <changeSet author="lukas.krivosudsky" id="user_computer-1.0.0.xml">
+        <createTable tableName="t_customer_computer">
+            <column name="id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="customer_id" type="int">
                 <constraints nullable="false"
                              foreignKeyName="fk_customer_id"
                              referencedTableName="t_customer"
-                             referencedColumnNames="customer_id"/>
+                             referencedColumnNames="id"/>
             </column>
-            <column name="invoice_date" type="date">
+            <column name="url" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="due_date" type="date">
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="lukas.krivosudsky" id="invoice-1.0.0">
+        <createTable tableName="t_invoice">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="int">
+                <constraints nullable="false"
+                             foreignKeyName="fk_customer_id"
+                             referencedTableName="t_customer"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="invoice_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_date" type="timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="total_amount" type="decimal(10,2)">
                 <constraints nullable="false"/>
             </column>
+            <column name="paid" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number_of_tries" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
         </createTable>
     </changeSet>
 
     <changeSet author="lukas.krivosudsky" id="product-1.0.0" >
         <createTable tableName="c_product">
-            <column name="product_id" type="int">
+            <column name="id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_name" type="varchar(25)">
                 <constraints nullable="false" />
             </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
         </createTable>
     </changeSet>
 
     <changeSet author="lukas.krivosudsky" id="invoice-detail-1.0.0" >
         <createTable tableName="t_invoice_detail">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
             <column name="invoice_id" type="int">
                 <constraints nullable="false"
                              foreignKeyName="fk_invoice_id"
                              referencedTableName="t_invoice"
-                             referencedColumnNames="invoice_id"/>
+                             referencedColumnNames="id"/>
             </column>
             <column name="product_id" type="int">
                 <constraints nullable="false"
                              foreignKeyName="fk_product_id"
                              referencedTableName="c_product"
-                             referencedColumnNames="product_id"/>
+                             referencedColumnNames="id"/>
             </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
         </createTable>
     </changeSet>
 

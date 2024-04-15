@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd">
+
+
+    <changeSet author="lukas.krivosudsky" id="products-insert-1.0.0">
+        <insert tableName="t_customer">
+            <column name="id" valueSequenceNext="customer_id_seq"/>
+            <column name="company_name" value="Západoslovenská energetika, a.s."/>
+            <column name="email" value="zse@zse.sk"/>
+            <column name="phone_number" value="+421999598745"/>
+            <column name="address" value="Čulenova 6; 816 47 Bratislava"/>
+            <column name="created_at" value="now()"/>
+            <column name="updated_at" value="null"/>
+        </insert>
+        <insert tableName="t_customer">
+            <column name="id" valueSequenceNext="customer_id_seq"/>
+            <column name="company_name" value="ESET"/>
+            <column name="email" value="hr@eset.sk"/>
+            <column name="phone_number" value="+421325652000"/>
+            <column name="address" value="Einsteinova 3541/24, 851 01 Petržalka"/>
+            <column name="created_at" value="now()"/>
+            <column name="updated_at" value="null"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
