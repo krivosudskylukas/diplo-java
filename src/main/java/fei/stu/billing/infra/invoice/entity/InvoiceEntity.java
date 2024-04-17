@@ -46,6 +46,9 @@ public class InvoiceEntity extends AbstractEntity {
     @Column(name = "number_of_tries", nullable = false)
     private int numberOfTries;
 
+    @Column(name = "license_file_transferred", nullable = false)
+    private boolean fileTransferred;
+
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<InvoiceDetailEntity> invoiceDetails;
 
@@ -110,5 +113,13 @@ public class InvoiceEntity extends AbstractEntity {
 
     public void setNumberOfTries(int numberOfTries) {
         this.numberOfTries = numberOfTries;
+    }
+
+    public boolean isFileTransferred() {
+        return fileTransferred;
+    }
+
+    public void setFileTransferred(boolean fileTransferred) {
+        this.fileTransferred = fileTransferred;
     }
 }

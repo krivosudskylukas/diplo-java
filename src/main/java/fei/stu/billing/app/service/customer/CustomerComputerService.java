@@ -17,10 +17,10 @@ public class CustomerComputerService {
         this.mapper = mapper;
     }
 
-    public CustomerComputer getCustomerComputerInfo(Customer customer){
+    public CustomerComputer getCustomerComputerInfo(Integer customerId){
         return mapper.mapFromEntity(
                 repository
-                        .findByCustomerId(customer.id())
+                        .findByCustomerId(customerId)
                         .orElseThrow(() -> new IllegalArgumentException("No customer info!"))
         );
     }

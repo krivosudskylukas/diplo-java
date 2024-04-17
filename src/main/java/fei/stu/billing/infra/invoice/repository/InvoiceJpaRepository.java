@@ -2,7 +2,10 @@ package fei.stu.billing.infra.invoice.repository;
 
 import fei.stu.billing.infra.invoice.entity.InvoiceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface InvoiceJpaRepository extends JpaRepository<InvoiceEntity, Integer> {
@@ -10,4 +13,7 @@ public interface InvoiceJpaRepository extends JpaRepository<InvoiceEntity, Integ
     List<InvoiceEntity> findByCustomerId(Integer customerId);
 
     List<InvoiceEntity> findByPaid(boolean paid);
+
+    @Query("SELECT i FROM InvoiceEntity i WHERE i.paid = :paid AND i.dueDate > :time")
+    List<InvoiceEntity> findByPaidAndDate(@Param("paid")boolean paid, @Param("time")LocalDateTime time);
 }

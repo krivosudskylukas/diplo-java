@@ -88,6 +88,9 @@
             <column name="paid" type="boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
+            <column name="license_file_transferred" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
             <column name="number_of_tries" type="int" defaultValue="0">
                 <constraints nullable="false"/>
             </column>

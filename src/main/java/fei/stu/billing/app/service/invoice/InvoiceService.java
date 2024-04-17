@@ -1,10 +1,11 @@
 package fei.stu.billing.app.service.invoice;
 
-import fei.stu.billing.domain.Invoice;
+import fei.stu.billing.infra.invoice.entity.InvoiceEntity;
 import fei.stu.billing.infra.invoice.mapper.InvoiceEntityMapper;
 import fei.stu.billing.infra.invoice.repository.InvoiceJpaRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -18,11 +19,14 @@ public class InvoiceService {
         this.mapper = mapper;
     }
 
-    public List<Invoice> getUnpaidInvoices(){
+    public List<InvoiceEntity> getUnpaidInvoices(){
         return repository
-                .findByPaid(false)
+                .findByPaidAndDate(true, LocalDateTime.now())
                 .stream()
-                .map(mapper::mapFromEntity)
                 .toList();
+    }
+
+    public void saveInvoice(InvoiceEntity entity){
+        repository.save(entity);
     }
 }
