@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static fei.stu.billing.app.common.Constants.FILE_NOT_TRANSFERRED;
+import static fei.stu.billing.app.common.Constants.PAID_INVOICE;
+
 @Component
 public class InvoiceService {
 
@@ -19,9 +22,9 @@ public class InvoiceService {
         this.mapper = mapper;
     }
 
-    public List<InvoiceEntity> getUnpaidInvoices(){
+    public List<InvoiceEntity> getPaidInvoices(){
         return repository
-                .findByPaidAndDate(true, LocalDateTime.now())
+                .findByPaidAndDate(PAID_INVOICE, LocalDateTime.now(), FILE_NOT_TRANSFERRED)
                 .stream()
                 .toList();
     }

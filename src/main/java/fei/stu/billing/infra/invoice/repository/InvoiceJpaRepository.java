@@ -14,6 +14,6 @@ public interface InvoiceJpaRepository extends JpaRepository<InvoiceEntity, Integ
 
     List<InvoiceEntity> findByPaid(boolean paid);
 
-    @Query("SELECT i FROM InvoiceEntity i WHERE i.paid = :paid AND i.dueDate > :time")
-    List<InvoiceEntity> findByPaidAndDate(@Param("paid")boolean paid, @Param("time")LocalDateTime time);
+    @Query("SELECT i FROM InvoiceEntity i WHERE i.paid = :paid AND i.dueDate > :time and i.fileTransferred = :fileTransferred")
+    List<InvoiceEntity> findByPaidAndDate(@Param("paid")boolean paid, @Param("time")LocalDateTime time, @Param("fileTransferred")boolean fileTransferred);
 }

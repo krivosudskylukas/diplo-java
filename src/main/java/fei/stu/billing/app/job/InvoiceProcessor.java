@@ -15,7 +15,6 @@ import org.springframework.web.client.RestClient;
 import java.util.List;
 
 import static fei.stu.billing.app.common.Constants.CAN_NOT_CONNECT_TO_CUSTOMER;
-import static fei.stu.billing.app.common.Constants.CUSTOMER_NOT_PAID;
 
 @Component
 public class InvoiceProcessor {
@@ -39,28 +38,29 @@ public class InvoiceProcessor {
     @Transactional
     @Scheduled(fixedRate = 500000)
     public void processInvoices(){
-        List<InvoiceEntity> paidInvoices = invoiceService.getUnpaidInvoices();
+        List<InvoiceEntity> paidInvoices = invoiceService.getPaidInvoices();
 
         for(InvoiceEntity paidInvoice: paidInvoices){
-            if(paidInvoice.getNumberOfTries() > 5 && !paidInvoice.isFileTransferred()){
-                String body = "Customer "
-                        + paidInvoice.getCustomer().getCompanyName()
-                        + " has not paid invoice from "
-                        + paidInvoice.getDueDate()+ " yet.";
-                mailService.sendEmail(customerMapper.mapFromEntity(paidInvoice.getCustomer()), CUSTOMER_NOT_PAID, body);
-            }
             CustomerComputer customerComputer = customerComputerService.getCustomerComputerInfo(paidInvoice.getCustomer().getId());
+
+            if(paidInvoice.getNumberOfTries() > 5 && !paidInvoice.isFileTransferred()){
+                String body = "Unable to connect to "
+                        + customerComputer.url();
+                mailService.sendEmail(customerMapper.mapFromEntity(paidInvoice.getCustomer()), CAN_NOT_CONNECT_TO_CUSTOMER, body);
+                continue;
+            }
+
             String response = createFileInRemotePc(customerComputer);
             if(!response.equals("1")){
                 paidInvoice.setNumberOfTries(paidInvoice.getNumberOfTries() + 1);
-                String body = "Unabled to connect to "
+                String body = "Unable to connect to "
                         + customerComputer.url();
                 mailService.sendEmail(customerMapper.mapFromEntity(paidInvoice.getCustomer()), CAN_NOT_CONNECT_TO_CUSTOMER , body);
                 invoiceService.saveInvoice(paidInvoice);
                 continue;
             }
+
             paidInvoice.setNumberOfTries(paidInvoice.getNumberOfTries() + 1);
-            paidInvoice.setPaid(true);
             paidInvoice.setFileTransferred(true);
             invoiceService.saveInvoice(paidInvoice);
         }
