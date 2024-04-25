@@ -8,16 +8,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fei.stu.billing.app.service.invoice.InvoiceService;
+
 import java.security.*;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.Signature;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
@@ -26,6 +30,12 @@ import javax.crypto.spec.PSource;
 @RestController
 @RequestMapping("/api")
 public class LicenseController{
+
+    private final InvoiceService invoiceService;
+    
+    public LicenseController(InvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
+    }   
 
     static {
         Security.addProvider(new BouncyCastleProvider());
@@ -36,7 +46,8 @@ public class LicenseController{
         System.out.println(request);
 
         boolean isValid = verifySignature(request.data(), request.signature());
-         if (isValid) {
+
+        if (isValid) {
             PublicKey publicKey = loadPublicKeyFromFile("publicKey.pem");
             Response response = new Response(1739919600L, "Kramare", 1713024184L, List.of("Scan", "Xray", "Messages"));
 
@@ -48,7 +59,7 @@ public class LicenseController{
             return encryptData(jsonResponse, publicKey);
             // return "Signature is correct";
          } else {
-             return "Signature is incorrect";
+             throw new RuntimeException("Signature is incorrect");
          }
 
     }
@@ -108,6 +119,20 @@ public PublicKey loadPublicKeyFromFile(String filePath) throws Exception {
     X509EncodedKeySpec spec = new X509EncodedKeySpec(decoded);
     KeyFactory keyFactory = KeyFactory.getInstance("RSA");
     return keyFactory.generatePublic(spec);
+}
+
+public long getNextMonth(){
+    // Get the current date and time
+    LocalDateTime now = LocalDateTime.now();
+
+    // Adjust to the first of the next month
+    LocalDateTime firstOfNextMonth = now.with(TemporalAdjusters.firstDayOfNextMonth()).withHour(0).withMinute(0).withSecond(0).withNano(0);
+
+    // Convert LocalDateTime to ZonedDateTime to include the time zone
+    ZonedDateTime zonedDateTime = firstOfNextMonth.atZone(ZoneId.systemDefault());
+
+    // Convert to epoch seconds
+    return zonedDateTime.toEpochSecond();
 }
 
 }
