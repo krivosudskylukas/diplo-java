@@ -10,6 +10,7 @@ import java.util.List;
 
 import static fei.stu.billing.app.common.Constants.FILE_NOT_TRANSFERRED;
 import static fei.stu.billing.app.common.Constants.PAID_INVOICE;
+import static fei.stu.billing.app.common.Constants.UNPAID_INVOICE;
 
 @Component
 public class InvoiceService {
@@ -25,6 +26,13 @@ public class InvoiceService {
     public List<InvoiceEntity> getPaidInvoices(){
         return repository
                 .findByPaidAndDate(PAID_INVOICE, LocalDateTime.now(), FILE_NOT_TRANSFERRED)
+                .stream()
+                .toList();
+    }
+
+    public List<InvoiceEntity> getUnpaidInvoices(){
+        return repository
+                .findUnpaid(UNPAID_INVOICE, LocalDateTime.now())
                 .stream()
                 .toList();
     }

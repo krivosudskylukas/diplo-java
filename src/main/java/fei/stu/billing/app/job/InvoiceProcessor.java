@@ -14,7 +14,8 @@ import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
-import static fei.stu.billing.app.common.Constants.CAN_NOT_CONNECT_TO_CUSTOMER;
+import static fei.stu.billing.app.common.Constants.CUSTOMER_NOT_PAID;
+import static fei.stu.billing.app.common.Constants.REMIND_TO_PAY_INVOICE;
 
 @Component
 public class InvoiceProcessor {
@@ -38,31 +39,22 @@ public class InvoiceProcessor {
     @Transactional
     @Scheduled(fixedRate = 500000)
     public void processInvoices(){
-        List<InvoiceEntity> paidInvoices = invoiceService.getPaidInvoices();
+        List<InvoiceEntity> paidInvoices = invoiceService.getUnpaidInvoices();
 
         for(InvoiceEntity paidInvoice: paidInvoices){
             CustomerComputer customerComputer = customerComputerService.getCustomerComputerInfo(paidInvoice.getCustomer().getId());
 
-            if(paidInvoice.getNumberOfTries() > 5 && !paidInvoice.isFileTransferred()){
-                String body = "Unable to connect to "
-                        + customerComputer.url();
-                mailService.sendEmail(customerMapper.mapFromEntity(paidInvoice.getCustomer()), CAN_NOT_CONNECT_TO_CUSTOMER, body);
-                continue;
+            if(paidInvoice.getNumberOfTries() > 5 ){
+                String body = "Customer id["
+                        + customerComputer.id() + "] has not paid the invoice yet.";
+                mailService.sendEmail(customerMapper.mapFromEntity(paidInvoice.getCustomer()), CUSTOMER_NOT_PAID, body);
+            }else{
+                String body = "Reminder, invoice is still not paid!";
+                mailService.sendEmail(customerMapper.mapFromEntity(paidInvoice.getCustomer()), REMIND_TO_PAY_INVOICE, body);
             }
-
-            String response = createFileInRemotePc(customerComputer);
-            if(!response.equals("1")){
-                paidInvoice.setNumberOfTries(paidInvoice.getNumberOfTries() + 1);
-                String body = "Unable to connect to "
-                        + customerComputer.url();
-                mailService.sendEmail(customerMapper.mapFromEntity(paidInvoice.getCustomer()), CAN_NOT_CONNECT_TO_CUSTOMER , body);
-                invoiceService.saveInvoice(paidInvoice);
-                continue;
-            }
-
             paidInvoice.setNumberOfTries(paidInvoice.getNumberOfTries() + 1);
-            paidInvoice.setFileTransferred(true);
             invoiceService.saveInvoice(paidInvoice);
+
         }
     }
 
