@@ -22,6 +22,13 @@ public class MailService {
         message.setSubject(subject);
         message.setText(body);
         mailSender.send(message);
+    }
 
+    public void sendEmailToMe(String subject, String body){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo("9a.krivosudsky@gmail.com");
+        message.setSubject(subject);
+        message.setText(body);
+        mailSender.send(message);
     }
 }

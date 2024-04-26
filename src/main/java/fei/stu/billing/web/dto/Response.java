@@ -1,4 +1,4 @@
-package fei.stu.verifier.ui;
+package fei.stu.billing.web.dto;
 
 import java.util.List;
 
