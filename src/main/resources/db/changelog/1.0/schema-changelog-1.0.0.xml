@@ -62,6 +62,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="timestamp"/>
+            <column name="public_encryption_key" type="text"></column>
+            <column name="public_signing_key" type="text"></column>
         </createTable>
     </changeSet>
 

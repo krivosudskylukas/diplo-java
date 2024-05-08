@@ -50,7 +50,6 @@ public class InvoiceService {
         if(!currMonthInvoice.isPaid()){
             throw new Exception("Invoice is not paid");
         }
-
         List<String> functionality = currMonthInvoice.getInvoiceDetails().stream().map(entity -> entity.getProduct().getProductName()).toList();
         return new Response(getNextMonth(), currMonthInvoice.getCustomer().getCompanyName(), getNow(), functionality);
     }

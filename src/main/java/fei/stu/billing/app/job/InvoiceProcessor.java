@@ -43,7 +43,6 @@ public class InvoiceProcessor {
 
         for(InvoiceEntity paidInvoice: paidInvoices){
             CustomerComputer customerComputer = customerComputerService.getCustomerComputerInfo(paidInvoice.getCustomer().getId());
-
             if(paidInvoice.getNumberOfTries() > 5 ){
                 String body = "Customer id["
                         + customerComputer.id() + "] has not paid the invoice yet.";
@@ -54,7 +53,6 @@ public class InvoiceProcessor {
             }
             paidInvoice.setNumberOfTries(paidInvoice.getNumberOfTries() + 1);
             invoiceService.saveInvoice(paidInvoice);
-
         }
     }
 

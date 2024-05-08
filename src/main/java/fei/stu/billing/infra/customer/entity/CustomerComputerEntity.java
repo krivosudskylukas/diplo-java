@@ -27,7 +27,29 @@ public class CustomerComputerEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     CustomerEntity customer;
 
+    @Column(name = "public_encryption_key")
+    String encryptionKey;
+
+    @Column(name = "public_signing_key")
+    String signingKey;
+
     public CustomerComputerEntity() {
+    }
+
+    public String getEncryptionKey() {
+        return encryptionKey;
+    }
+
+    public void setEncryptionKey(String encryptionKey) {
+        this.encryptionKey = encryptionKey;
+    }
+
+    public String getSigningKey() {
+        return signingKey;
+    }
+
+    public void setSigningKey(String signingKey) {
+        this.signingKey = signingKey;
     }
 
     public Integer getId() {
